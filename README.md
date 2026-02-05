@@ -42,7 +42,7 @@ why `nim👑`? because it's fast and simple
 
 # Installation ☁️
 ```fish
-wget https://raw.githubusercontent.com/unxsh/nitch/main/setup.sh && sh setup.sh
+wget https://raw.githubusercontent.com/solocco/nitch/main/setup.sh && sh setup.sh
 ```
 
 # Usage 🪨
