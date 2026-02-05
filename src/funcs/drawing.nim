@@ -3,10 +3,11 @@ import
   std/strutils,
   getDistroId,      # import to get distro id through /etc/os-release
   ../assets/logos,  # uncomment if you use your own logo
-  ../nitches/[getUser, getHostname,
-                  getDistro, getKernel,
-                  getUptime, getShell,
-                  getPkgs, getRam, getLogo]  # import nitches to get info about user system
+  ../nitches/[getUser, getDistro, 
+                  getWM, getKernel,
+                  getUptime, getAge, 
+                  getShell, getPkgs, 
+                  getRam, getLogo]  # import nitches to get info about user system
 
 # the main function for drawing fetch
 proc drawInfo*(asciiArt: bool) =
@@ -19,9 +20,10 @@ proc drawInfo*(asciiArt: bool) =
 
   const  # icons before cotegores
     userIcon   = " "  # recomended: " " or "|>"
-    hnameIcon  = " "  # recomended: " " or "|>"
     distroIcon = "󰻀 "  # recomended: "󰻀 " or "|>"
+    wmIcon     = " "
     kernelIcon = "󰌢 "  # recomended: "󰌢 " or "|>"
+    ageIcon    = "󰦖 "
     uptimeIcon = " "  # recomended: " " or "|>"
     shellIcon  = " "  # recomended: " " or "|>"
     pkgsIcon   = "󰏖 "  # recomended: "󰏖 " or "|>"
@@ -35,9 +37,10 @@ proc drawInfo*(asciiArt: bool) =
 
   const  # categories
     userCat   = " user   │ "  # recomended: " user   │ "
-    hnameCat  = " hname  │ "  # recomended: " hname  │ "
     distroCat = " distro │ "  # recomended: " distro │ "
+    wmCat     = " WM     │ "
     kernelCat = " kernel │ "  # recomended: " kernel │ "-
+    ageCat    = " OS age │ "
     uptimeCat = " uptime │ "  # recomended: " uptime │ "
     shellCat  = " shell  │ "  # recomended: " shell  │ "
     pkgsCat   = " pkgs   │ "  # recomended: " pkgs   │ "
@@ -46,9 +49,10 @@ proc drawInfo*(asciiArt: bool) =
 
   let  # all info about system
     userInfo     = getUser()          # get user through $USER env variable
-    hostnameInfo = getHostname()      # get Hostname hostname through /etc/hostname
     distroInfo   = getDistro()        # get distro through /etc/os-release
+    wmInfo       = getWM()            # get window manager through $XDG_CURRENT_DESKTOP env variable
     kernelInfo   = getKernel()        # get kernel through /proc/version
+    ageInfo      = getAge()           # get system age
     uptimeInfo   = getUptime()        # get Uptime through /proc/uptime file
     shellInfo    = getShell()         # get shell through $SHELL env variable
     pkgsInfo     = getPkgs(distroId)  # get amount of packages in distro
@@ -74,11 +78,11 @@ proc drawInfo*(asciiArt: bool) =
   # colored out
     stdout.styledWrite("\n", styleBright, "  ╭───────────╮\n")
     stdout.styledWrite("  │ ", color2, userIcon, color0, userCat, color1, userInfo, color0, "\n",)
-    if not isEmptyOrWhitespace(hostnameInfo):
-      stdout.styledWrite("  │ ", color2, hnameIcon, color0, hnameCat, color2, hostnameInfo, color0, "\n")
     stdout.styledWrite("  │ ", color3, distroIcon, color0, distroCat, color3, distroInfo, color0, "\n")
-    stdout.styledWrite("  │ ", color4, kernelIcon, color0, kernelCat, color4, kernelInfo, color0, "\n")
-    stdout.styledWrite("  │ ", color5, uptimeIcon, color0, uptimeCat, color5, uptimeInfo, color0, "\n")
+    stdout.styledWrite("  │ ", color4, wmIcon, color0, wmCat, color4, wmInfo, color0, "\n")
+    stdout.styledWrite("  │ ", color5, kernelIcon, color0, kernelCat, color5, kernelInfo, color0, "\n")
+    stdout.styledWrite("  │ ", color6, ageIcon, color0, ageCat, color6, ageInfo, color0, "\n")
+    stdout.styledWrite("  │ ", color2, uptimeIcon, color0, uptimeCat, color2, uptimeInfo, color0, "\n")
     stdout.styledWrite("  │ ", color6, shellIcon, color0, shellCat, color6, shellInfo, color0, "\n")
     stdout.styledWrite("  │ ", color1, pkgsIcon, color0, pkgsCat, color1, pkgsInfo, color0, "\n")
     stdout.styledWrite("  │ ", color2, ramIcon, color0, ramCat, fgYellow, ramInfo, color0, "\n")
