@@ -9,7 +9,7 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
-LINK="https://github.com/solocco/nitch/releases/download/1.0/nitch"
+LINK="https://github.com/solocco/nitch/releases/download/v1.0.1/nitch"
 INSTALL_PATH="/usr/local/bin/nitch"
 
 clear
